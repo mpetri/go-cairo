@@ -13,7 +13,7 @@ import (
 	"image/draw"
 	"unsafe"
 
-	"github.com/ungerik/go-cairo/extimage"
+	"github.com/mpetri/go-cairo/extimage"
 )
 
 type Cairo_surface *C.cairo_surface_t
@@ -107,6 +107,10 @@ func NewSVGSurface(filename string, widthInPoints, heightInPoints float64, versi
 	s := C.cairo_svg_surface_create(cs, C.double(widthInPoints), C.double(heightInPoints))
 	C.cairo_svg_surface_restrict_to_version(s, C.cairo_svg_version_t(version))
 	return &Surface{surface: s, context: C.cairo_create(s)}
+}
+
+func (self *Surface) Context() *C.cairo_t {
+	return self.context
 }
 
 func (self *Surface) Save() {
